@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Recovered Transmission</title>
+  <title>Transmission Log</title>
 </head>
-<body>
-  <h1>Recovered Audio Transmission</h1>
-  <p>Download or listen to the recovered signal below.</p>
+<body style="background:black; color:lime; font-family:monospace; padding:20px;">
+  <h1>Transmission Log: 1969-07-20</h1>
+  <p>Audio file recovered from lunar module archives.</p>
+  <p>Decryption in progress...</p>
 
-  <audio controls>
-    <source src="transmition.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+  <p><a href="transmission.mp3" style="color:lightblue;">▶ Play Audio File</a></p>
 
-  <p><a href="transmission.mp3" download>Download MP3</a></p>
+  <p><i>Note: signal may cause interference with perception.</i></p>
 </body>
 </html>
