@@ -11,6 +11,9 @@
       padding: 20px;
     }
     pre {
+      background-color: #003300;
+      padding: 15px;
+      border: 1px solid lime;
       white-space: pre-wrap;
       word-wrap: break-word;
     }
@@ -27,6 +30,27 @@
       text-align: center;
       padding-top: 20%;
       z-index: 9999;
+    }
+    #emergencySection {
+      color: red;
+      border: 1px solid red;
+      padding: 15px;
+      margin-top: 20px;
+      background-color: #220000;
+    }
+    input {
+      background: black;
+      color: lime;
+      border: 1px solid lime;
+      padding: 5px;
+      font-family: monospace;
+    }
+    button {
+      background: black;
+      color: lime;
+      border: 1px solid lime;
+      padding: 5px 10px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -82,7 +106,7 @@
 
     function checkDecodedCode() {
       const code = document.getElementById("codeInput").value.trim();
-      if (code === "alpha93") { // First correct code
+      if (code === "alpha93") { // Replace with your actual first code
         document.getElementById("message").textContent = "ACCESS GRANTED...";
         document.getElementById("firstPhase").style.display = "none";
         document.getElementById("emergencySection").style.display = "block";
@@ -99,15 +123,15 @@
 
         if (timeLeft < 0) {
           clearInterval(countdownInterval);
-          document.body.innerHTML = ""; // Clear screen
-          document.getElementById("shutdown").style.display = "block"; // Show shutdown
+          document.body.innerHTML = ""; // Clear page
+          document.getElementById("shutdown").style.display = "block"; // Show shutdown message
         }
       }, 1000);
     }
 
     function checkEmergencyCode() {
       const emergencyCode = document.getElementById("emergencyInput").value.trim();
-      if (emergencyCode === "5A-3X/DELTA") { // Emergency override code
+      if (emergencyCode === "5A-3X/DELTA") { // Replace with your emergency code
         clearInterval(countdownInterval);
         document.getElementById("emergencyMessage").textContent = "OVERRIDE ACCEPTED. SYSTEM STABILIZED.";
         document.getElementById("countdown").textContent = "";
@@ -119,3 +143,4 @@
 
 </body>
 </html>
+
