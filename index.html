@@ -11,6 +11,15 @@
 
   <p><a href="transmition.mp3" style="color:lightblue;">▶ Play Audio File</a></p>
 
-  <p><i></i></p>
-</body>
-</html>
+ <h2>ENTER ACCESS CODE</h2>
+<input type="text" id="codeInput" placeholder="Enter code">
+<button onclick="checkCode()">Submit</button>
+<p id="message"></p>
+
+<!-- This section stays hidden until code is correct -->
+<div id="unlocked" style="display: none; margin-top: 20px;">
+  <h3>ACCESS GRANTED</h3>
+  <p><a href="next-clue.html" id="secretLink">→ Proceed to the next location</a></p>
+</div>
+
+
