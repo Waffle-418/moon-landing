@@ -69,13 +69,16 @@
 > PAYLOAD DETECTED: ENCRYPTED  
 > PAYLOAD SIZE: 16.2MB  
 > LINK STATUS: INTERMITTENT  
-> PROTOCOL: 5A-3X/DELTA  
+> PROTOCOL: 5AD3X 
 > TIMESTAMP: 1969-07-20 02:56:00 UTC  
 
-> DATA DUMP INITIALIZED  
+> DATA DUMP INITIALIZED 
+> LEGACY ENCODING DETECTED: CEASAR VARIANT.
 > ...  
 > ...  
-> ...  
+> ... 
+
+> DFFHVV FRGH: WRXFKGRZQ PLVVLRQ QDPH?
 
 > DECRYPTION MODULE OFFLINE  
 > MANUAL INTERFACE REQUIRED  
@@ -85,7 +88,7 @@
   <!-- FIRST INPUT SECTION -->
   <div id="firstPhase">
     <h2>ENTER DECRYPTED IDENTIFIER</h2>
-    <input type="text" id="codeInput" placeholder="Enter code">
+    <input type="text" id="codeInput" placeholder="Enter access code">
     <button onclick="checkDecodedCode()">Submit</button>
     <p id="message"></p>
   </div>
@@ -106,7 +109,7 @@
 
     function checkDecodedCode() {
       const code = document.getElementById("codeInput").value.trim();
-      if (code === "alpha93") { // Replace with your actual first code
+      if (code === "apollo11"or"apollo 11") { // Replace with your actual first code
         document.getElementById("message").textContent = "ACCESS GRANTED...";
         document.getElementById("firstPhase").style.display = "none";
         document.getElementById("emergencySection").style.display = "block";
@@ -131,7 +134,7 @@
 
     function checkEmergencyCode() {
       const emergencyCode = document.getElementById("emergencyInput").value.trim();
-      if (emergencyCode === "5A-3X/DELTA") { // Replace with your emergency code
+      if (emergencyCode === "5AD3X") { // Replace with your emergency code
         clearInterval(countdownInterval);
         document.getElementById("emergencyMessage").textContent = "OVERRIDE ACCEPTED. SYSTEM STABILIZED.";
         document.getElementById("countdown").textContent = "";
