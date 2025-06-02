@@ -9,214 +9,113 @@
       color: lime;
       font-family: monospace;
       padding: 20px;
-      margin: 0;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
     }
     pre {
       white-space: pre-wrap;
       word-wrap: break-word;
-      border: 1px solid lime;
-      padding: 15px;
-      margin-bottom: 20px;
     }
-    input, button {
-      background: black;
-      color: lime;
-      border: 1px solid lime;
-      font-family: monospace;
-      padding: 5px 10px;
-      margin-top: 10px;
-    }
-    #error, #countdown, #protocol-section, #final-message, #shutdown-message {
-      margin-top: 20px;
+    #shutdown {
       display: none;
-    }
-    #error {
-      color: red;
-      font-weight: bold;
-    }
-    #countdown {
-      color: lime;
-      font-weight: bold;
-    }
-    #shutdown-message {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background-color: black;
       color: red;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-size: 5vw;
-      font-weight: bold;
+      font-size: 3em;
+      text-align: center;
+      padding-top: 20%;
       z-index: 9999;
-      user-select: none;
-    }
-    #shutdown-message button {
-      margin-top: 30px;
-      padding: 15px 30px;
-      font-size: 2vw;
-      cursor: pointer;
-      border: 2px solid red;
-      color: red;
-      background: black;
     }
   </style>
 </head>
 <body>
 
+  <div id="shutdown">SYSTEM SHUTDOWN<br>RELOAD REQUIRED</div>
+
   <h1>CLASSIFIED DATA DUMP</h1>
   <pre>
 [BOOT SEQUENCE INITIATED]  
-&gt; SYSTEM CHECK: OK  
-&gt; MEMORY INTEGRITY: OK  
-&gt; BIO-SCAN: NON-HUMAN ENTITY DETECTED  
-&gt; SIGNAL ORIGIN: 37.3522, -115.6848  
-&gt; CLASSIFIED MODULE ACCESS: LEVEL 6  
-&gt; PAYLOAD DETECTED: ENCRYPTED  
-&gt; PAYLOAD SIZE: 16.2MB  
-&gt; LINK STATUS: INTERMITTENT  
-&gt; PROTOCOL: 5A-3X/DELTA  
-&gt; TIMESTAMP: 1969-07-20 02:56:00 UTC  
+> SYSTEM CHECK: OK  
+> MEMORY INTEGRITY: OK  
+> BIO-SCAN: NON-HUMAN ENTITY DETECTED  
+> SIGNAL ORIGIN: 37.3522, -115.6848  
+> CLASSIFIED MODULE ACCESS: LEVEL 6  
+> PAYLOAD DETECTED: ENCRYPTED  
+> PAYLOAD SIZE: 16.2MB  
+> LINK STATUS: INTERMITTENT  
+> PROTOCOL: 5A-3X/DELTA  
+> TIMESTAMP: 1969-07-20 02:56:00 UTC  
 
-&gt; DATA DUMP INITIALIZED  
-&gt; ...  
-&gt; ...  
-&gt; ...  
+> DATA DUMP INITIALIZED  
+> ...  
+> ...  
+> ...  
 
-&gt; DECRYPTION MODULE OFFLINE  
-&gt; MANUAL INTERFACE REQUIRED  
-&gt; EXITING TO SHELL...
+> DECRYPTION MODULE OFFLINE  
+> MANUAL INTERFACE REQUIRED  
+> EXITING TO SHELL...
   </pre>
 
-  <h2>Enter decoded code to continue</h2>
-  <input type="text" id="decodedInput" placeholder="Enter code here" autocomplete="off" />
-  <button onclick="checkDecodedCode()">Submit</button>
-  <p id="decodedMessage"></p>
-
-  <p id="error">ERROR: SYSTEM MALFUNCTION – ACCESS TEMPORARILY LOCKED</p>
-  <p id="countdown">Enter emergency protocol code before shutdown in <span id="timer">30</span> seconds</p>
-
-  <div id="protocol-section">
-    <p>Enter emergency protocol code:</p>
-    <input type="text" id="protocolInput" placeholder="Enter protocol code" autocomplete="off" />
-    <button onclick="checkProtocolCode()">Submit</button>
-    <p id="protocol-message"></p>
+  <!-- FIRST INPUT SECTION -->
+  <div id="firstPhase">
+    <h2>ENTER DECRYPTED IDENTIFIER</h2>
+    <input type="text" id="codeInput" placeholder="Enter code">
+    <button onclick="checkDecodedCode()">Submit</button>
+    <p id="message"></p>
   </div>
 
-  <div id="final-message">
-    <h2>OVERRIDE ACTIVATED</h2>
-    <p>Access to classified files granted.</p>
-    <p><a href="classified-data.html">→ Proceed to classified data</a></p>
-    <audio controls>
-      <source src="transmission.mp3" type="audio/mpeg" />
-      Your browser does not support the audio element.
-    </audio>
+  <!-- EMERGENCY PROTOCOL SECTION -->
+  <div id="emergencySection" style="display: none;">
+    <h2>!! SYSTEM FAILURE DETECTED !!</h2>
+    <p>ENTER EMERGENCY PROTOCOL AUTHORIZATION:</p>
+    <input type="text" id="emergencyInput" placeholder="Enter protocol code">
+    <button onclick="checkEmergencyCode()">Submit</button>
+    <p id="emergencyMessage"></p>
+    <p id="countdown"></p>
   </div>
 
-  <div id="shutdown-message">
-    <div>SYSTEM SHUTTING DOWN</div>
-    <button onclick="resetPage()">RESTART</button>
-  </div>
+  <script>
+    let countdownInterval;
+    let timeLeft = 30;
 
-<script>
-  let countdownTimer;
-  let timeLeft;
+    function checkDecodedCode() {
+      const code = document.getElementById("codeInput").value.trim();
+      if (code === "alpha93") { // First correct code
+        document.getElementById("message").textContent = "ACCESS GRANTED...";
+        document.getElementById("firstPhase").style.display = "none";
+        document.getElementById("emergencySection").style.display = "block";
+        startCountdown();
+      } else {
+        document.getElementById("message").textContent = "ACCESS DENIED.";
+      }
+    }
 
-  // Initially hide error, countdown, protocol input, final, shutdown
-  document.getElementById('error').style.display = 'none';
-  document.getElementById('countdown').style.display = 'none';
-  document.getElementById('protocol-section').style.display = 'none';
-  document.getElementById('final-message').style.display = 'none';
-  document.getElementById('shutdown-message').style.display = 'none';
-
-  function checkDecodedCode() {
-    const input = document.getElementById('decodedInput').value.trim().toUpperCase();
-    const decodedMessage = document.getElementById('decodedMessage');
-    const error = document.getElementById('error');
-    const countdown = document.getElementById('countdown');
-    const protocolSection = document.getElementById('protocol-section');
-
-    // Example correct answer, change this to your puzzle answer
-    const validDecodedCode = 'ENCRYPTED'; 
-
-    if (input === validDecodedCode) {
-      decodedMessage.textContent = 'Code accepted. Initiating system override...';
-      decodedMessage.style.color = 'lime';
-
-      // Show error + countdown + protocol input
-      error.style.display = 'block';
-      countdown.style.display = 'block';
-      protocolSection.style.display = 'block';
-
-      // Hide decoded input and button
-      document.getElementById('decodedInput').style.display = 'none';
-      document.querySelector('button').style.display = 'none';
-
-      // Start countdown timer
-      timeLeft = 30;
-      document.getElementById('timer').textContent = timeLeft;
-      countdownTimer = setInterval(() => {
+    function startCountdown() {
+      countdownInterval = setInterval(() => {
+        document.getElementById("countdown").textContent = `Countdown: ${timeLeft} seconds remaining`;
         timeLeft--;
-        document.getElementById('timer').textContent = timeLeft;
 
-        if (timeLeft <= 0) {
-          clearInterval(countdownTimer);
-          shutdownSystem();
+        if (timeLeft < 0) {
+          clearInterval(countdownInterval);
+          document.body.innerHTML = ""; // Clear screen
+          document.getElementById("shutdown").style.display = "block"; // Show shutdown
         }
       }, 1000);
-    } else {
-      decodedMessage.textContent = 'Incorrect code. Try again.';
-      decodedMessage.style.color = 'red';
     }
-  }
 
-  function checkProtocolCode() {
-    const input = document.getElementById('protocolInput').value.trim().toUpperCase();
-    const protocolMessage = document.getElementById('protocol-message');
-    const finalMessage = document.getElementById('final-message');
-
-    const correctProtocol = '5A-3X/DELTA';
-
-    protocolMessage.style.color = 'red';
-    protocolMessage.textContent = '';
-
-    if (input === correctProtocol) {
-      clearInterval(countdownTimer);
-      protocolMessage.textContent = '';
-      finalMessage.style.display = 'block';
-
-      // Hide protocol input area, error, countdown
-      document.getElementById('protocol-section').style.display = 'none';
-      document.getElementById('error').style.display = 'none';
-      document.getElementById('countdown').style.display = 'none';
-    } else {
-      protocolMessage.textContent = 'ACCESS DENIED: Incorrect protocol code.';
+    function checkEmergencyCode() {
+      const emergencyCode = document.getElementById("emergencyInput").value.trim();
+      if (emergencyCode === "5A-3X/DELTA") { // Emergency override code
+        clearInterval(countdownInterval);
+        document.getElementById("emergencyMessage").textContent = "OVERRIDE ACCEPTED. SYSTEM STABILIZED.";
+        document.getElementById("countdown").textContent = "";
+      } else {
+        document.getElementById("emergencyMessage").textContent = "INVALID PROTOCOL.";
+      }
     }
-  }
-
-  function shutdownSystem() {
-    // Hide everything except shutdown message
-    document.body.style.overflow = 'hidden';
-    document.getElementById('protocol-section').style.display = 'none';
-    document.getElementById('error').style.display = 'none';
-    document.getElementById('countdown').style.display = 'none';
-    document.getElementById('decodedMessage').textContent = '';
-    document.getElementById('decodedInput').style.display = 'none';
-    document.querySelector('button').style.display = 'none';
-    document.getElementById('final-message').style.display = 'none';
-
-    // Show shutdown screen overlay
-    document.getElementById('shutdown-message').style.display = 'flex';
-  }
-
-  function resetPage() {
-    location.reload();
-  }
-</script>
+  </script>
 
 </body>
 </html>
