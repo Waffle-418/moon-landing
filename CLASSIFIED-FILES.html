@@ -9,6 +9,10 @@
       color: lime;
       font-family: monospace;
       padding: 20px;
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
     }
     pre {
       white-space: pre-wrap;
@@ -36,6 +40,29 @@
     #countdown {
       color: lime;
       font-weight: bold;
+    }
+    #shutdown-message {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: black;
+      color: red;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 5vw;
+      font-weight: bold;
+      z-index: 9999;
+      user-select: none;
+    }
+    #shutdown-message button {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 2vw;
+      cursor: pointer;
+      border: 2px solid red;
+      color: red;
+      background: black;
     }
   </style>
 </head>
@@ -71,7 +98,7 @@
   <p id="decodedMessage"></p>
 
   <p id="error">ERROR: SYSTEM MALFUNCTION – ACCESS TEMPORARILY LOCKED</p>
-  <p id="countdown">Enter emergency protocol code before shutdown in <span id="timer">10</span> seconds</p>
+  <p id="countdown">Enter emergency protocol code before shutdown in <span id="timer">30</span> seconds</p>
 
   <div id="protocol-section">
     <p>Enter emergency protocol code:</p>
@@ -90,10 +117,9 @@
     </audio>
   </div>
 
-  <div id="shutdown-message" style="color:red;">
-    <h2>SYSTEM SHUTDOWN</h2>
-    <p>Access not granted. System shutting down...</p>
-    <button onclick="resetPage()">Retry</button>
+  <div id="shutdown-message">
+    <div>SYSTEM SHUTTING DOWN</div>
+    <button onclick="resetPage()">RESTART</button>
   </div>
 
 <script>
@@ -131,7 +157,7 @@
       document.querySelector('button').style.display = 'none';
 
       // Start countdown timer
-      timeLeft = 10;
+      timeLeft = 30;
       document.getElementById('timer').textContent = timeLeft;
       countdownTimer = setInterval(() => {
         timeLeft--;
@@ -173,14 +199,18 @@
   }
 
   function shutdownSystem() {
+    // Hide everything except shutdown message
+    document.body.style.overflow = 'hidden';
     document.getElementById('protocol-section').style.display = 'none';
     document.getElementById('error').style.display = 'none';
     document.getElementById('countdown').style.display = 'none';
     document.getElementById('decodedMessage').textContent = '';
     document.getElementById('decodedInput').style.display = 'none';
     document.querySelector('button').style.display = 'none';
+    document.getElementById('final-message').style.display = 'none';
 
-    document.getElementById('shutdown-message').style.display = 'block';
+    // Show shutdown screen overlay
+    document.getElementById('shutdown-message').style.display = 'flex';
   }
 
   function resetPage() {
