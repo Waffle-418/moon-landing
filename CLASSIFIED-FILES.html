@@ -87,7 +87,7 @@
 
   <!-- FIRST INPUT SECTION -->
   <div id="firstPhase">
-    <h2>ENTER DECRYPTED IDENTIFIER</h2>
+    <h2>ENTER DECRYPTED ACCESS CODE</h2>
     <input type="text" id="codeInput" placeholder="Enter access code">
     <button onclick="checkDecodedCode()">Submit</button>
     <p id="message"></p>
@@ -109,7 +109,7 @@
 
     function checkDecodedCode() {
       const code = document.getElementById("codeInput").value.trim();
-      if (code === "apollo11"or"apollo 11") { // Replace with your actual first code
+      if (code === "apollo11") { // Replace with your actual first code
         document.getElementById("message").textContent = "ACCESS GRANTED...";
         document.getElementById("firstPhase").style.display = "none";
         document.getElementById("emergencySection").style.display = "block";
